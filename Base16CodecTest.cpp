@@ -7,7 +7,8 @@
 
 TEST(Base16, randomEncodeCycle)
 {
-	for (int i = 0; i < 100; i++)
+	std::srand(std::time(0));
+	for (int i = 0; i < 10000; i++)
 	{
 		std::size_t size = std::rand() % 10240;
 		char* data = new char[size];
