@@ -18,9 +18,6 @@ Codec Base16::encode(const Codec& rawData)
 	return {encoded, returnSize};
 }
 
-#include <iostream>
-using namespace std;
-
 Codec Base16::decode(const Codec& encodedData)
 {
 	std::size_t returnSize = encodedData.length / 2;
@@ -35,37 +32,20 @@ Codec Base16::decode(const Codec& encodedData)
 			char c = encodedData.data[i++];
 			if (c >= 'A' && c <= 'F')
 			{
-				cout << "Found capital: '" << c << "'" << endl;
 				c += 'a' - 'A';
 			}
 
 			if (c >= 'a' && c <= 'f')
 			{
-				cout << "Found letter: '" << c << "' ";
 				c -= 'a' - 10;
-				cout << "Value: " << (int)c << endl;
 			}
 			else if (c >= '0' && c <= '9')
 			{
-				cout << "Found digit: '" << c << "' ";
 				c -= '0';
-				cout << "Value: " << (int)c << endl;
-			}
-			else
-			{
-				cerr << "==== WHAT THE HECK?!" << endl << endl;
 			}
 
-			if (z == 0)
-			{
-				decoded[j] = (c << 4) & 0xF0;
-			}
-			else
-			{
-				decoded[j] |= c & 0x0F;
-			}
+			decoded[j] |= (c << (4 * (1 - z)));
 		}
-		cout << "Decoded is now: '" << decoded[j] << "'" << endl;
 		j++;
 	}
 	return {decoded, returnSize};
